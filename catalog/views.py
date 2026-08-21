@@ -37,10 +37,18 @@ HERO_COLLAGE_IMAGES = [
 
 
 CATEGORY_IMAGES = {
-    'mates': {'image': 'img/categories/mates.webp', 'position': 'center'},
+    'mates': {
+        'image': 'img/categories/mates.webp',
+        'position': 'center',
+        'header_position': 'center 45%',
+    },
     'bombillas': {'image': 'img/categories/bombillas.webp', 'position': 'center'},
     'canastas-materas': {'image': 'img/categories/canastas-materas.webp', 'position': 'center'},
-    'termos': {'image': 'img/categories/termos.webp', 'position': 'center 15%'},
+    'termos': {
+        'image': 'img/categories/termos.webp',
+        'position': 'center 15%',
+        'header_position': 'center 15%',
+    },
 }
 
 
@@ -76,10 +84,14 @@ def home(request):
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     products = category.products.filter(is_active=True)
+    category_data = CATEGORY_IMAGES.get(category.slug, {})
     return render(request, 'catalog/category_detail.html', {
         'category': category,
         'products': products,
-        'category_image': CATEGORY_IMAGES.get(category.slug, {}).get('image'),
+        'category_image': category_data.get('image'),
+        'category_image_position': category_data.get(
+            'header_position', category_data.get('position', 'center')
+        ),
     })
 
 

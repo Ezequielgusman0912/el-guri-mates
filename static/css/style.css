@@ -378,7 +378,7 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   overflow: hidden;
   background: var(--color-bg-dark);
   color: var(--color-text-light);
-  padding: 40px 0;
+  padding: 55px 0;
 }
 
 .page-header .container {
@@ -391,12 +391,12 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   top: 0;
   right: 0;
   height: 100%;
-  width: 60%;
+  width: 38%;
   object-fit: cover;
   opacity: .6;
   filter: grayscale(.15) brightness(.85);
-  -webkit-mask-image: linear-gradient(to left, black 30%, transparent 95%);
-  mask-image: linear-gradient(to left, black 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to left, black 25%, transparent 100%);
+  mask-image: linear-gradient(to left, black 25%, transparent 100%);
   pointer-events: none;
 }
 

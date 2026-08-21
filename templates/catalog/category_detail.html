@@ -6,7 +6,8 @@
 {% block content %}
 <section class="page-header">
   {% if category_image %}
-  <img class="page-header-image" src="{% static category_image %}" alt="" aria-hidden="true">
+  <img class="page-header-image" src="{% static category_image %}" alt="" aria-hidden="true"
+       style="object-position: {{ category_image_position }};">
   {% endif %}
   <div class="container">
     <p class="breadcrumb"><a href="{% url 'catalog:home' %}">Inicio</a> / {{ category.name }}</p>
