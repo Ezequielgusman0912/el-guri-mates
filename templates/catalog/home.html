@@ -44,10 +44,10 @@
 
 <section id="productos" class="products">
   <div class="container">
-    <h2 class="section-title">Nuestros productos</h2>
-    {% if all_products %}
+    <h2 class="section-title">Más vendidos</h2>
+    {% if top_products %}
     <div class="product-grid">
-      {% for product in all_products %}
+      {% for product in top_products %}
         {% include 'catalog/_product_card.html' %}
       {% endfor %}
     </div>

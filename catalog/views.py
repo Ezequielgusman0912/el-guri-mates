@@ -51,14 +51,14 @@ def home(request):
 
     sales_by_product = dict(
         OrderItem.objects
-        .filter(order__status__in=['confirmado', 'entregado'])
+        .exclude(order__status='cancelado')
         .values('product_id')
         .annotate(total_sold=Sum('quantity'))
         .values_list('product_id', 'total_sold')
     )
-    all_products = sorted(
+    top_products = sorted(
         products_qs, key=lambda p: (-sales_by_product.get(p.id, 0), p.name)
-    )
+    )[:4]
 
     categories_with_images = [
         {'category': cat, **CATEGORY_IMAGES.get(cat.slug, {'image': None, 'position': 'center'})}
@@ -68,7 +68,7 @@ def home(request):
         'categories': categories,
         'categories_with_images': categories_with_images,
         'featured_products': featured_products,
-        'all_products': all_products,
+        'top_products': top_products,
         'hero_collage_images': HERO_COLLAGE_IMAGES,
     })
 
