@@ -26,7 +26,7 @@
       {% for entry in categories_with_images %}
       <a href="{% url 'catalog:category_detail' entry.category.slug %}"
          class="category-card{% if entry.image %} category-card-with-image{% endif %}"
-         {% if entry.image %}style="background-image: url('{% static entry.image %}')"{% endif %}>
+         {% if entry.image %}style="--cat-bg: url('{% static entry.image %}'); --cat-pos: {{ entry.position }};"{% endif %}>
         <span>{{ entry.category.name }}</span>
       </a>
       {% empty %}

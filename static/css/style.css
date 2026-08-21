@@ -283,13 +283,23 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 .category-card:hover { background: var(--color-bg-dark-2); transform: translateY(-3px); }
 
 .category-card-with-image {
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: multiply;
+  overflow: hidden;
 }
-.category-card-with-image:hover { background-color: var(--color-bg-dark-2); }
+.category-card-with-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--cat-bg);
+  background-size: cover;
+  background-position: var(--cat-pos, center);
+  background-color: var(--color-bg-dark);
+  background-blend-mode: multiply;
+  transition: transform .35s ease;
+}
+.category-card-with-image:hover::before { transform: scale(1.05); }
 .category-card-with-image span {
   position: relative;
+  z-index: 1;
   text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
 }
 
