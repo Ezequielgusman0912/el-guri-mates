@@ -75,11 +75,11 @@ def checkout(request):
             order.save()
             try:
                 send_order_emails(order)
-            except Exception:
+            except Exception as e:
                 messages.warning(
                     request,
                     'Tu pedido se registró, pero hubo un problema enviando el email de '
-                    'confirmación. Te contactaremos igual.',
+                    f'confirmación. Te contactaremos igual. [DEBUG: {e!r}]',
                 )
             cart.clear()
             return redirect('orders:order_success', order_number=order.order_number)
