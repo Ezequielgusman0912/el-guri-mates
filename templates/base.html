@@ -9,12 +9,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="icon" type="image/png" href="{% static 'img/logo-square.png' %}">
 </head>
 <body>
 <header class="site-header">
   <div class="container header-inner">
     <a href="{% url 'catalog:home' %}" class="logo">
-      <span class="logo-text">El Guri <strong>Mates</strong></span>
+      <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="logo-img">
     </a>
     <nav class="main-nav">
       {% for cat in nav_categories %}
@@ -43,7 +44,7 @@
 <footer class="site-footer">
   <div class="container footer-inner">
     <div>
-      <span class="logo-text">El Guri <strong>Mates</strong></span>
+      <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="logo-img logo-img-footer">
       <p>Córdoba, Argentina 🧉</p>
     </div>
     <div class="footer-contact">
