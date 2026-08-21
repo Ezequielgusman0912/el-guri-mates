@@ -79,6 +79,7 @@ def category_detail(request, slug):
     return render(request, 'catalog/category_detail.html', {
         'category': category,
         'products': products,
+        'category_image': CATEGORY_IMAGES.get(category.slug, {}).get('image'),
     })
 
 

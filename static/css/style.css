@@ -374,9 +374,30 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 /* Page header (category / cart / checkout) */
 
 .page-header {
+  position: relative;
+  overflow: hidden;
   background: var(--color-bg-dark);
   color: var(--color-text-light);
   padding: 40px 0;
+}
+
+.page-header .container {
+  position: relative;
+  z-index: 1;
+}
+
+.page-header-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60%;
+  object-fit: cover;
+  opacity: .6;
+  filter: grayscale(.15) brightness(.85);
+  -webkit-mask-image: linear-gradient(to left, black 30%, transparent 95%);
+  mask-image: linear-gradient(to left, black 30%, transparent 95%);
+  pointer-events: none;
 }
 
 .breadcrumb {

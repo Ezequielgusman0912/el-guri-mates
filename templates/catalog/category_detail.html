@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ category.name }} — {{ site_name }}{% endblock %}
 
 {% block content %}
 <section class="page-header">
+  {% if category_image %}
+  <img class="page-header-image" src="{% static category_image %}" alt="" aria-hidden="true">
+  {% endif %}
   <div class="container">
     <p class="breadcrumb"><a href="{% url 'catalog:home' %}">Inicio</a> / {{ category.name }}</p>
     <h1>{{ category.name }}</h1>
