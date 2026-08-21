@@ -21,7 +21,7 @@ def home(request):
     categories = Category.objects.all()
     all_products = Product.objects.filter(is_active=True)
     featured_products = all_products.filter(featured=True)[:8]
-    collage_images = HERO_COLLAGE_IMAGES * 6
+    collage_images = HERO_COLLAGE_IMAGES * 3
     random.shuffle(collage_images)
     return render(request, 'catalog/home.html', {
         'categories': categories,

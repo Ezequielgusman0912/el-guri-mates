@@ -185,9 +185,9 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   inset: 0;
   z-index: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  grid-auto-rows: 140px;
-  gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 300px;
+  gap: 3px;
 }
 
 .hero-collage-item {
@@ -201,15 +201,15 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(.25) brightness(.5);
+  filter: grayscale(.1) brightness(.8) contrast(1.05);
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: radial-gradient(circle at top right, rgba(22, 58, 51, .82), rgba(22, 58, 51, .92)),
-    linear-gradient(180deg, rgba(28, 74, 65, .55), rgba(22, 58, 51, .88));
+  background: radial-gradient(circle at center, rgba(22, 58, 51, .5), rgba(22, 58, 51, .72)),
+    linear-gradient(180deg, rgba(28, 74, 65, .35), rgba(22, 58, 51, .6));
 }
 
 .hero-eyebrow {
