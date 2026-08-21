@@ -1,4 +1,7 @@
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404, render
+
+from orders.models import OrderItem
 
 from .models import Category, Product
 
@@ -43,8 +46,20 @@ CATEGORY_IMAGES = {
 
 def home(request):
     categories = Category.objects.all()
-    all_products = Product.objects.filter(is_active=True)
-    featured_products = all_products.filter(featured=True)[:8]
+    products_qs = Product.objects.filter(is_active=True)
+    featured_products = products_qs.filter(featured=True)[:8]
+
+    sales_by_product = dict(
+        OrderItem.objects
+        .filter(order__status__in=['confirmado', 'entregado'])
+        .values('product_id')
+        .annotate(total_sold=Sum('quantity'))
+        .values_list('product_id', 'total_sold')
+    )
+    all_products = sorted(
+        products_qs, key=lambda p: (-sales_by_product.get(p.id, 0), p.name)
+    )
+
     categories_with_images = [
         {'category': cat, **CATEGORY_IMAGES.get(cat.slug, {'image': None, 'position': 'center'})}
         for cat in categories
