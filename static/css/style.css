@@ -172,10 +172,44 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 /* Hero */
 
 .hero {
-  background: radial-gradient(circle at top right, var(--color-bg-dark-2), var(--color-bg-dark));
+  position: relative;
+  background: var(--color-bg-dark);
   color: var(--color-text-light);
   padding: 90px 0;
   text-align: center;
+  overflow: hidden;
+}
+
+.hero-collage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: 140px;
+  gap: 2px;
+}
+
+.hero-collage-item {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(.25) brightness(.5);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at top right, rgba(22, 58, 51, .82), rgba(22, 58, 51, .92)),
+    linear-gradient(180deg, rgba(28, 74, 65, .55), rgba(22, 58, 51, .88));
 }
 
 .hero-eyebrow {
@@ -192,6 +226,7 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   height: auto;
   margin: 0 auto 22px;
   display: block;
+  opacity: .88;
 }
 
 .hero h1 {
@@ -211,6 +246,11 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
 }
 
 /* Sections */
