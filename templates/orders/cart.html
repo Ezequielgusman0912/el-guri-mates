@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Tu pedido — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Tu pedido</h1>
+  </div>
+</section>
+
+<section class="cart">
+  <div class="container">
+    {% if cart|length > 0 %}
+      <div class="cart-table-wrapper">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart %}
+            <tr>
+              <td data-label="Producto">{{ item.product.name }}</td>
+              <td data-label="Precio">${{ item.price }}</td>
+              <td data-label="Cantidad">
+                <form action="{% url 'orders:cart_update' item.product.id %}" method="post" class="qty-form">
+                  {% csrf_token %}
+                  <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                  <button type="submit" class="btn btn-small btn-outline">Actualizar</button>
+                </form>
+              </td>
+              <td data-label="Subtotal">${{ item.subtotal }}</td>
+              <td>
+                <form action="{% url 'orders:cart_remove' item.product.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-link">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="cart-summary">
+        <p class="cart-total">Total: <strong>${{ cart.get_total }}</strong></p>
+        <div class="cart-actions">
+          <a href="{% url 'catalog:home' %}" class="btn btn-outline">Seguir comprando</a>
+          <a href="{% url 'orders:checkout' %}" class="btn btn-accent">Finalizar pedido</a>
+        </div>
+      </div>
+    {% else %}
+      <p class="empty-state">Tu pedido está vacío. <a href="{% url 'catalog:home' %}">Ver productos</a>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

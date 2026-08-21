@@ -1,0 +1,15 @@
+Hola {{ order.full_name }},
+
+¡Gracias por tu pedido en {{ site_name }}! 🧉
+
+Tu número de pedido es: {{ order.order_number }}
+
+Detalle del pedido:
+{% for item in items %}- {{ item.quantity }} x {{ item.product_name }} (${{ item.unit_price }} c/u) = ${{ item.subtotal }}
+{% endfor %}
+Total: ${{ order.total }}
+
+Nos vamos a contactar por WhatsApp o email para coordinar el pago y la entrega.
+
+¡Gracias por elegirnos!
+{{ site_name }} - Córdoba, Argentina

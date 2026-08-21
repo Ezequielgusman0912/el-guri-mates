@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="hero-eyebrow">Córdoba · Argentina</p>
+    <h1>Mates, bombillas y todo lo que necesitás para cebar como corresponde</h1>
+    <p class="hero-subtitle">Productos materos elegidos con onda por El Guri.</p>
+    <div class="hero-actions">
+      <a href="#productos" class="btn btn-accent">Ver productos</a>
+      <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Consultar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="categories">
+  <div class="container">
+    <h2 class="section-title">Categorías</h2>
+    <div class="category-grid">
+      {% for cat in categories %}
+      <a href="{% url 'catalog:category_detail' cat.slug %}" class="category-card">
+        <span>{{ cat.name }}</span>
+      </a>
+      {% empty %}
+      <p class="empty-state">Todavía no cargaste categorías. Corré <code>python manage.py seed_categories</code> o creálas desde /admin.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="productos" class="products">
+  <div class="container">
+    <h2 class="section-title">Nuestros productos</h2>
+    {% if all_products %}
+    <div class="product-grid">
+      {% for product in all_products %}
+        {% include 'catalog/_product_card.html' %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Todavía no hay productos cargados. Agregalos desde el panel de administración en <code>/admin</code>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

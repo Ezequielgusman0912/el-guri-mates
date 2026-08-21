@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Finalizar pedido — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Finalizar pedido</h1>
+  </div>
+</section>
+
+<section class="checkout">
+  <div class="container checkout-inner">
+    <form method="post" class="checkout-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <p class="field-error">{{ field.errors|join:', ' }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-accent btn-block">Confirmar pedido</button>
+      <p class="checkout-note">
+        Te vamos a enviar la confirmación por email con el número de pedido.
+        Coordinamos el pago y la entrega por WhatsApp.
+      </p>
+    </form>
+
+    <aside class="checkout-summary">
+      <h2>Resumen</h2>
+      <ul class="checkout-items">
+        {% for item in cart %}
+          <li>{{ item.quantity }} x {{ item.product.name }} — ${{ item.subtotal }}</li>
+        {% endfor %}
+      </ul>
+      <p class="cart-total">Total: <strong>${{ cart.get_total }}</strong></p>
+    </aside>
+  </div>
+</section>
+{% endblock %}

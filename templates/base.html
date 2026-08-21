@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site_name }} — Productos materos artesanales de Córdoba{% endblock %}</title>
+<meta name="description" content="Mates, bombillas, canastas materas y termos. Envíos desde Córdoba, Argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="{% url 'catalog:home' %}" class="logo">
+      <span class="logo-text">El Guri <strong>Mates</strong></span>
+    </a>
+    <nav class="main-nav">
+      {% for cat in nav_categories %}
+        <a href="{% url 'catalog:category_detail' cat.slug %}">{{ cat.name }}</a>
+      {% endfor %}
+    </nav>
+    <a href="{% url 'orders:cart_detail' %}" class="cart-link" aria-label="Ver carrito">
+      <span aria-hidden="true">🛒</span>
+      <span class="cart-count">{{ cart_count }}</span>
+    </a>
+  </div>
+</header>
+
+{% if messages %}
+<div class="container messages">
+  {% for message in messages %}
+    <div class="message message-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <span class="logo-text">El Guri <strong>Mates</strong></span>
+      <p>Córdoba, Argentina 🧉</p>
+    </div>
+    <div class="footer-contact">
+      <p>¿Tenés dudas? Escribinos por WhatsApp o hacé tu pedido online.</p>
+      <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Escribinos</a>
+    </div>
+  </div>
+</footer>
+
+<a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16 .5C7.4.5.5 7.4.5 16c0 2.8.7 5.5 2.1 7.9L.5 31.5l7.8-2c2.3 1.3 4.9 2 7.6 2 8.6 0 15.5-7 15.5-15.5S24.6.5 16 .5zm0 28.3c-2.4 0-4.7-.6-6.8-1.9l-.5-.3-4.6 1.2 1.2-4.5-.3-.5C3.5 20.7 2.9 18.4 2.9 16c0-7.2 5.9-13.1 13.1-13.1S29.1 8.8 29.1 16 23.2 28.8 16 28.8zm7.2-9.8c-.4-.2-2.3-1.1-2.7-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.3-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.4.5-.6.2-.2.2-.4.3-.6.1-.3 0-.5 0-.7-.1-.2-.9-2.2-1.2-3-.3-.8-.6-.7-.9-.7h-.7c-.2 0-.6.1-.9.5s-1.2 1.2-1.2 2.9 1.2 3.4 1.4 3.6c.2.3 2.4 3.7 5.9 5.1.8.3 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.3-.9 2.6-1.9.3-.9.3-1.7.2-1.9-.1-.2-.3-.3-.7-.5z"/></svg>
+</a>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

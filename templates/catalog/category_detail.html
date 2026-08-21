@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <p class="breadcrumb"><a href="{% url 'catalog:home' %}">Inicio</a> / {{ category.name }}</p>
+    <h1>{{ category.name }}</h1>
+  </div>
+</section>
+
+<section class="products">
+  <div class="container">
+    {% if products %}
+    <div class="product-grid">
+      {% for product in products %}
+        {% include 'catalog/_product_card.html' %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Todavía no hay productos en esta categoría.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

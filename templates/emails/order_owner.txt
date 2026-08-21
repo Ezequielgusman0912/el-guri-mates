@@ -1,0 +1,12 @@
+Nuevo pedido recibido: {{ order.order_number }}
+
+Cliente: {{ order.full_name }}
+Email: {{ order.email }}
+Teléfono: {{ order.phone }}
+Dirección: {{ order.address|default:"-" }}
+Notas: {{ order.notes|default:"-" }}
+
+Detalle:
+{% for item in items %}- {{ item.quantity }} x {{ item.product_name }} (${{ item.unit_price }} c/u) = ${{ item.subtotal }}
+{% endfor %}
+Total: ${{ order.total }}

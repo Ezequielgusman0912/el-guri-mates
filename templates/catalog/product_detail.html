@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="product-detail">
+  <div class="container product-detail-inner">
+    <div class="product-detail-image">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      {% else %}
+        <div class="product-image-placeholder product-image-placeholder-lg" aria-hidden="true">🧉</div>
+      {% endif %}
+    </div>
+    <div class="product-detail-info">
+      <p class="breadcrumb">
+        <a href="{% url 'catalog:home' %}">Inicio</a> /
+        <a href="{% url 'catalog:category_detail' product.category.slug %}">{{ product.category.name }}</a>
+      </p>
+      <h1>{{ product.name }}</h1>
+      <p class="product-price product-price-lg">${{ product.price }}</p>
+      {% if product.description %}
+        <p class="product-description">{{ product.description|linebreaksbr }}</p>
+      {% endif %}
+
+      <form action="{% url 'orders:cart_add' product.id %}" method="post" class="add-to-cart-form add-to-cart-form-lg">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'orders:cart_detail' %}">
+        <label for="quantity">Cantidad</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" {% if not product.in_stock %}disabled{% endif %}>
+        <button type="submit" class="btn btn-accent" {% if not product.in_stock %}disabled{% endif %}>
+          {% if product.in_stock %}Agregar al pedido{% else %}Sin stock{% endif %}
+        </button>
+      </form>
+
+      <p class="product-consult">
+        ¿Preguntas sobre este producto?
+        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener">Consultanos por WhatsApp</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

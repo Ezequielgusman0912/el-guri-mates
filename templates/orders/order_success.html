@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Pedido confirmado — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="order-success">
+  <div class="container order-success-inner">
+    <p class="order-success-icon" aria-hidden="true">✅</p>
+    <h1>¡Gracias por tu pedido, {{ order.full_name }}!</h1>
+    <p class="order-number">Número de pedido: <strong>{{ order.order_number }}</strong></p>
+    <p>Te enviamos un email a <strong>{{ order.email }}</strong> con el detalle de tu compra.</p>
+
+    <ul class="checkout-items">
+      {% for item in order.items.all %}
+        <li>{{ item.quantity }} x {{ item.product_name }} — ${{ item.subtotal }}</li>
+      {% endfor %}
+    </ul>
+    <p class="cart-total">Total: <strong>${{ order.total }}</strong></p>
+
+    <div class="order-success-actions">
+      <a href="{{ whatsapp_order_url }}" target="_blank" rel="noopener" class="btn btn-accent">
+        Coordinar mi pedido por WhatsApp
+      </a>
+      <a href="{% url 'catalog:home' %}" class="btn btn-outline">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

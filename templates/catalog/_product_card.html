@@ -1,0 +1,23 @@
+{% load static %}
+<article class="product-card">
+  <a href="{% url 'catalog:product_detail' product.slug %}" class="product-image">
+    {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+    {% else %}
+      <div class="product-image-placeholder" aria-hidden="true">🧉</div>
+    {% endif %}
+  </a>
+  <div class="product-info">
+    <p class="product-category">{{ product.category.name }}</p>
+    <h3><a href="{% url 'catalog:product_detail' product.slug %}">{{ product.name }}</a></h3>
+    <p class="product-price">${{ product.price }}</p>
+    <form action="{% url 'orders:cart_add' product.id %}" method="post" class="add-to-cart-form">
+      {% csrf_token %}
+      <input type="hidden" name="quantity" value="1">
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button type="submit" class="btn btn-small" {% if not product.in_stock %}disabled{% endif %}>
+        {% if product.in_stock %}Agregar al pedido{% else %}Sin stock{% endif %}
+      </button>
+    </form>
+  </div>
+</article>
