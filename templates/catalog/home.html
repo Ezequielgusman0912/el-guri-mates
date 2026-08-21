@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <section class="hero">
   <div class="container hero-inner">
-    <p class="hero-eyebrow">Córdoba · Argentina</p>
-    <h1>Mates, bombillas y todo lo que necesitás para cebar como corresponde</h1>
-    <p class="hero-subtitle">Productos materos elegidos con onda por El Guri.</p>
+    <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="hero-logo">
+    <p class="hero-subtitle">Productos materos elegidos con onda, desde Córdoba.</p>
     <div class="hero-actions">
       <a href="#productos" class="btn btn-accent">Ver productos</a>
       <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Consultar por WhatsApp</a>
