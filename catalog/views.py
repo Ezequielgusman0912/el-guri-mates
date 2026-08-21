@@ -33,12 +33,25 @@ HERO_COLLAGE_IMAGES = [
 ]
 
 
+CATEGORY_IMAGES = {
+    'mates': 'img/categories/mates.webp',
+    'bombillas': 'img/categories/bombillas.webp',
+    'canastas-materas': 'img/categories/canastas-materas.webp',
+    'termos': 'img/categories/termos.webp',
+}
+
+
 def home(request):
     categories = Category.objects.all()
     all_products = Product.objects.filter(is_active=True)
     featured_products = all_products.filter(featured=True)[:8]
+    categories_with_images = [
+        {'category': cat, 'image': CATEGORY_IMAGES.get(cat.slug)}
+        for cat in categories
+    ]
     return render(request, 'catalog/home.html', {
         'categories': categories,
+        'categories_with_images': categories_with_images,
         'featured_products': featured_products,
         'all_products': all_products,
         'hero_collage_images': HERO_COLLAGE_IMAGES,

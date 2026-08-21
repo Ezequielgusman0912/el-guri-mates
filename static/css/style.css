@@ -270,6 +270,7 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 }
 
 .category-card {
+  position: relative;
   background: var(--color-bg-dark);
   color: var(--color-text-light);
   border-radius: var(--radius);
@@ -280,6 +281,17 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   transition: transform .15s ease, background .15s ease;
 }
 .category-card:hover { background: var(--color-bg-dark-2); transform: translateY(-3px); }
+
+.category-card-with-image {
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+}
+.category-card-with-image:hover { background-color: var(--color-bg-dark-2); }
+.category-card-with-image span {
+  position: relative;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+}
 
 .products { padding: 50px 0 90px; }
 

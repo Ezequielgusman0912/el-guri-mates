@@ -23,9 +23,11 @@
   <div class="container">
     <h2 class="section-title">Categorías</h2>
     <div class="category-grid">
-      {% for cat in categories %}
-      <a href="{% url 'catalog:category_detail' cat.slug %}" class="category-card">
-        <span>{{ cat.name }}</span>
+      {% for entry in categories_with_images %}
+      <a href="{% url 'catalog:category_detail' entry.category.slug %}"
+         class="category-card{% if entry.image %} category-card-with-image{% endif %}"
+         {% if entry.image %}style="background-image: url('{% static entry.image %}')"{% endif %}>
+        <span>{{ entry.category.name }}</span>
       </a>
       {% empty %}
       <p class="empty-state">
