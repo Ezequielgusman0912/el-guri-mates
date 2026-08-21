@@ -22,7 +22,13 @@
         <span>{{ cat.name }}</span>
       </a>
       {% empty %}
-      <p class="empty-state">Todavía no cargaste categorías. Corré <code>python manage.py seed_categories</code> o creálas desde /admin.</p>
+      <p class="empty-state">
+        {% if debug %}
+          Todavía no cargaste categorías. Corré <code>python manage.py seed_categories</code> o creálas desde el admin.
+        {% else %}
+          Muy pronto vas a encontrar acá nuestras categorías.
+        {% endif %}
+      </p>
       {% endfor %}
     </div>
   </div>
@@ -38,7 +44,13 @@
       {% endfor %}
     </div>
     {% else %}
-    <p class="empty-state">Todavía no hay productos cargados. Agregalos desde el panel de administración en <code>/admin</code>.</p>
+    <p class="empty-state">
+      {% if debug %}
+        Todavía no hay productos cargados. Agregalos desde el panel de administración.
+      {% else %}
+        Estamos preparando nuestro catálogo. ¡Muy pronto vas a poder ver todos los productos acá!
+      {% endif %}
+    </p>
     {% endif %}
   </div>
 </section>

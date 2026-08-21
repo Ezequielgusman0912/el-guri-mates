@@ -16,4 +16,5 @@ def site_context(request):
         'whatsapp_url': whatsapp_url,
         'nav_categories': Category.objects.all(),
         'cart_count': len(cart),
+        'debug': settings.DEBUG,
     }
