@@ -38,7 +38,18 @@
     });
   }
 
-  var pending = [];
+  var pendingCount = 0;
+  var submitButtons = [];
+
+  function setButtonsDisabled(disabled) {
+    if (!submitButtons.length) {
+      submitButtons = Array.prototype.slice.call(document.querySelectorAll('.submit-row input[type="submit"]'));
+    }
+    submitButtons.forEach(function (btn) {
+      btn.disabled = disabled;
+      btn.style.opacity = disabled ? '0.6' : '';
+    });
+  }
 
   document.addEventListener('change', function (e) {
     var input = e.target;
@@ -46,31 +57,20 @@
     if (!/(^|-)image$/.test(input.name || '')) return;
 
     var originalFiles = Array.prototype.slice.call(input.files);
-    var task = Promise.all(originalFiles.map(compressImage)).then(function (newFiles) {
+    pendingCount += 1;
+    setButtonsDisabled(true);
+
+    Promise.all(originalFiles.map(compressImage)).then(function (newFiles) {
       var dt = new DataTransfer();
       newFiles.forEach(function (f) { dt.items.add(f); });
       input.files = dt.files;
-    });
-    pending.push(task);
-    task.then(function () {
-      var idx = pending.indexOf(task);
-      if (idx > -1) pending.splice(idx, 1);
-    });
-  }, true);
-
-  document.addEventListener('submit', function (e) {
-    if (!pending.length) return;
-    var form = e.target;
-    if (form.dataset.imgCompressWaiting) return;
-    e.preventDefault();
-    form.dataset.imgCompressWaiting = '1';
-    var submitter = e.submitter;
-    Promise.all(pending).then(function () {
-      delete form.dataset.imgCompressWaiting;
-      if (form.requestSubmit) {
-        form.requestSubmit(submitter);
-      } else {
-        form.submit();
+    }).catch(function () {
+      // Keep the original file selection if compression fails for any reason.
+    }).then(function () {
+      pendingCount -= 1;
+      if (pendingCount <= 0) {
+        pendingCount = 0;
+        setButtonsDisabled(false);
       }
     });
   }, true);
