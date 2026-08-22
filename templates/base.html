@@ -46,20 +46,35 @@
     <div>
       <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="logo-img logo-img-footer">
       <p>Córdoba, Argentina 🧉</p>
-    </div>
-    <div class="footer-social">
-      <p>Seguinos</p>
-      <a href="{{ instagram_url }}" target="_blank" rel="noopener" class="social-link">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>
-        @{{ instagram_username }}
-      </a>
       {% if payment_methods %}
-      <p class="footer-payments">Medios de pago: {{ payment_methods|join:" · " }}</p>
+      <div class="footer-payments">
+        <p class="footer-payments-label">Medios de pago</p>
+        <ul class="payment-icons">
+          {% for pm in payment_methods %}
+          <li class="payment-icon" title="{{ pm.name }}">
+            {% if pm.icon == 'card' %}
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            {% elif pm.icon == 'cash' %}
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="3"></circle></svg>
+            {% else %}
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"></path></svg>
+            {% endif %}
+            <span>{{ pm.name }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
       {% endif %}
     </div>
     <div class="footer-contact">
       <p>¿Tenés dudas? Escribinos por WhatsApp o hacé tu pedido online.</p>
-      <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Escribinos</a>
+      <div class="footer-contact-links">
+        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Escribinos</a>
+        <a href="{{ instagram_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>
+          @{{ instagram_username }}
+        </a>
+      </div>
     </div>
   </div>
 </footer>

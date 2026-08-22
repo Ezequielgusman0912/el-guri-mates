@@ -574,31 +574,53 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 24px;
-  align-items: center;
+  gap: 32px;
+  align-items: flex-start;
 }
 
 .footer-contact { text-align: right; }
 .footer-contact p { margin-bottom: 10px; font-size: .9rem; }
 
-.footer-social { text-align: center; }
-.footer-social > p { margin-bottom: 10px; font-size: .9rem; opacity: .8; }
-
-.social-link {
+.footer-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.footer-contact-links .btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-text-light);
-  font-weight: 600;
-  transition: color .15s ease;
 }
-.social-link:hover { color: var(--color-accent); }
 
-.footer-payments {
-  margin-top: 12px;
+.footer-payments { margin-top: 18px; }
+.footer-payments-label {
+  margin-bottom: 10px;
   font-size: .8rem;
   opacity: .75;
 }
+
+.payment-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(251, 246, 227, .25);
+  border-radius: 999px;
+  font-size: .78rem;
+  opacity: .85;
+}
+.payment-icon svg { flex-shrink: 0; }
+.payment-icon span { white-space: nowrap; }
 
 /* WhatsApp floating button */
 
@@ -625,7 +647,14 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 @media (max-width: 800px) {
   .header-inner { flex-direction: column; gap: 12px; }
   .product-detail-inner, .checkout-inner { grid-template-columns: 1fr; }
-  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
   .footer-contact { text-align: center; }
+  .footer-contact-links { justify-content: center; }
+  .payment-icons { justify-content: center; }
   .cart-table th:nth-child(2), .cart-table td:nth-child(2) { display: none; }
+}
+
+@media (max-width: 420px) {
+  .footer-contact-links { flex-direction: column; align-items: stretch; }
+  .footer-contact-links .btn { justify-content: center; }
 }
