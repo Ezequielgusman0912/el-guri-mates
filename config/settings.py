@@ -149,3 +149,5 @@ else:
 
 SITE_NAME = 'El Guri Mates'
 WHATSAPP_NUMBER = os.environ.get('WHATSAPP_NUMBER', '5493510000000')
+INSTAGRAM_USERNAME = os.environ.get('INSTAGRAM_USERNAME', 'el_guri_mates')
+PAYMENT_METHODS = ['Mercado Pago', 'Tarjeta de crédito', 'Tarjeta de débito', 'Efectivo']

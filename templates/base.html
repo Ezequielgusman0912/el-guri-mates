@@ -47,6 +47,16 @@
       <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="logo-img logo-img-footer">
       <p>Córdoba, Argentina 🧉</p>
     </div>
+    <div class="footer-social">
+      <p>Seguinos</p>
+      <a href="{{ instagram_url }}" target="_blank" rel="noopener" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>
+        @{{ instagram_username }}
+      </a>
+      {% if payment_methods %}
+      <p class="footer-payments">Medios de pago: {{ payment_methods|join:" · " }}</p>
+      {% endif %}
+    </div>
     <div class="footer-contact">
       <p>¿Tenés dudas? Escribinos por WhatsApp o hacé tu pedido online.</p>
       <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Escribinos</a>

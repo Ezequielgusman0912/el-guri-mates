@@ -581,6 +581,25 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 .footer-contact { text-align: right; }
 .footer-contact p { margin-bottom: 10px; font-size: .9rem; }
 
+.footer-social { text-align: center; }
+.footer-social > p { margin-bottom: 10px; font-size: .9rem; opacity: .8; }
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-light);
+  font-weight: 600;
+  transition: color .15s ease;
+}
+.social-link:hover { color: var(--color-accent); }
+
+.footer-payments {
+  margin-top: 12px;
+  font-size: .8rem;
+  opacity: .75;
+}
+
 /* WhatsApp floating button */
 
 .whatsapp-float {

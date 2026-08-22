@@ -14,6 +14,9 @@ def site_context(request):
     return {
         'site_name': settings.SITE_NAME,
         'whatsapp_url': whatsapp_url,
+        'instagram_url': f'https://instagram.com/{settings.INSTAGRAM_USERNAME}',
+        'instagram_username': settings.INSTAGRAM_USERNAME,
+        'payment_methods': settings.PAYMENT_METHODS,
         'nav_categories': Category.objects.all(),
         'cart_count': len(cart),
         'debug': settings.DEBUG,
