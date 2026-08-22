@@ -5,11 +5,27 @@
 {% block content %}
 <section class="product-detail">
   <div class="container product-detail-inner">
-    <div class="product-detail-image">
-      {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-      {% else %}
-        <div class="product-image-placeholder product-image-placeholder-lg" aria-hidden="true">🧉</div>
+    <div class="product-detail-gallery">
+      <div class="product-detail-image">
+        {% if product.image %}
+          <img id="product-main-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          <div class="product-image-placeholder product-image-placeholder-lg" aria-hidden="true">🧉</div>
+        {% endif %}
+      </div>
+      {% if product.gallery.all %}
+      <div class="product-thumbnails">
+        {% if product.image %}
+        <button type="button" class="product-thumbnail is-active" onclick="document.getElementById('product-main-image').src=this.firstElementChild.src; document.querySelectorAll('.product-thumbnail').forEach(function(t){t.classList.remove('is-active')}); this.classList.add('is-active');">
+          <img src="{{ product.image.url }}" alt="">
+        </button>
+        {% endif %}
+        {% for photo in product.gallery.all %}
+        <button type="button" class="product-thumbnail{% if not product.image and forloop.first %} is-active{% endif %}" onclick="document.getElementById('product-main-image').src=this.firstElementChild.src; document.querySelectorAll('.product-thumbnail').forEach(function(t){t.classList.remove('is-active')}); this.classList.add('is-active');">
+          <img src="{{ photo.image.url }}" alt="">
+        </button>
+        {% endfor %}
+      </div>
       {% endif %}
     </div>
     <div class="product-detail-info">

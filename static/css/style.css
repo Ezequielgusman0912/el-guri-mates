@@ -425,6 +425,29 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .product-detail-image img { width: 100%; display: block; }
 
+.product-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.product-thumbnail {
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  background: #f1ead0;
+  opacity: .7;
+  transition: opacity .15s ease, border-color .15s ease;
+}
+.product-thumbnail img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.product-thumbnail:hover { opacity: 1; }
+.product-thumbnail.is-active { opacity: 1; border-color: var(--color-accent); }
+
 .product-description { margin: 18px 0; }
 
 .add-to-cart-form-lg {

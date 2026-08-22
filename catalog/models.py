@@ -57,3 +57,17 @@ class Product(models.Model):
     @property
     def in_stock(self):
         return self.stock > 0
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, related_name='gallery', on_delete=models.CASCADE)
+    image = models.ImageField('imagen', upload_to='productos/galeria/')
+    order = models.PositiveIntegerField('orden', default=0)
+
+    class Meta:
+        verbose_name = 'foto adicional'
+        verbose_name_plural = 'fotos adicionales'
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f'Foto de {self.product.name}'
