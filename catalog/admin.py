@@ -22,3 +22,6 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'description')
     inlines = [ProductImageInline]
+
+    class Media:
+        js = ('admin/js/compress_uploads.js',)
