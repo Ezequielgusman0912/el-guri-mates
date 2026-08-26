@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmación de tu pedido</title>
+</head>
+<body style="margin:0; padding:0; background-color:#fbf6e6; font-family:'Poppins', Arial, sans-serif; color:#22322c;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fbf6e6; padding:32px 0;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background-color:#ffffff; border:1px solid #e4dcc2; border-radius:12px; overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td align="center" style="background-color:#1c4a41; padding:28px 24px;">
+            <img src="cid:{{ logo_cid }}" alt="{{ site_name }}" width="72" style="display:block; margin:0 auto 10px;">
+            <p style="margin:0; color:#f2d478; font-size:13px; letter-spacing:1px; text-transform:uppercase;">Confirmación de pedido</p>
+          </td>
+        </tr>
+
+        <!-- Greeting -->
+        <tr>
+          <td style="padding:28px 32px 8px;">
+            <p style="margin:0 0 4px; font-size:16px;">Hola {{ order.full_name }},</p>
+            <p style="margin:0; font-size:15px; line-height:1.5;">¡Gracias por tu pedido! 🧉 Ya lo recibimos y en breve nos contactamos por WhatsApp o email para coordinar el pago y la entrega.</p>
+          </td>
+        </tr>
+
+        <!-- Order number badge -->
+        <tr>
+          <td style="padding:16px 32px 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color:#f2d478; border-radius:6px; padding:8px 14px;">
+                  <span style="font-size:13px; color:#1c4a41; font-weight:600;">Pedido {{ order.order_number }}</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Items table -->
+        <tr>
+          <td style="padding:20px 32px 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              <tr>
+                <td style="padding:8px 0; border-bottom:2px solid #1c4a41; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#8a8267;">Producto</td>
+                <td align="center" style="padding:8px 0; border-bottom:2px solid #1c4a41; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#8a8267;">Cant.</td>
+                <td align="right" style="padding:8px 0; border-bottom:2px solid #1c4a41; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#8a8267;">Subtotal</td>
+              </tr>
+              {% for item in items %}
+              <tr>
+                <td style="padding:10px 0; border-bottom:1px solid #e4dcc2; font-size:14px;">{{ item.product_name }}<br><span style="font-size:12px; color:#8a8267;">${{ item.unit_price }} c/u</span></td>
+                <td align="center" style="padding:10px 0; border-bottom:1px solid #e4dcc2; font-size:14px;">{{ item.quantity }}</td>
+                <td align="right" style="padding:10px 0; border-bottom:1px solid #e4dcc2; font-size:14px;">${{ item.subtotal }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td colspan="2" align="right" style="padding:14px 12px 0 0; font-size:15px; font-weight:700; color:#1c4a41;">Total</td>
+                <td align="right" style="padding:14px 0 0; font-size:17px; font-weight:700; color:#1c4a41;">${{ order.total }}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Closing -->
+        <tr>
+          <td style="padding:28px 32px 32px;">
+            <p style="margin:0; font-size:14px; line-height:1.5;">¡Gracias por elegirnos!</p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="background-color:#1c4a41; padding:18px 24px;">
+            <p style="margin:0; color:#fbf6e3; font-size:13px;">{{ site_name }} — Córdoba, Argentina</p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

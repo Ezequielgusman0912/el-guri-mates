@@ -1,6 +1,6 @@
 Hola {{ order.full_name }},
 
-¡Gracias por tu pedido en {{ site_name }}! 🧉
+¡Gracias por tu pedido! 🧉
 
 Tu número de pedido es: {{ order.order_number }}
 
