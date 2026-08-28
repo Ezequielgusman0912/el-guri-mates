@@ -67,7 +67,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .logo-img-footer {
-  height: 90px;
+  height: 116px;
   margin-bottom: 6px;
 }
 
@@ -593,7 +593,7 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .footer-contact { text-align: right; }
