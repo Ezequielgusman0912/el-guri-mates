@@ -67,8 +67,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .logo-img-footer {
-  height: 155px;
-  margin-bottom: 10px;
+  height: 90px;
+  margin-bottom: 6px;
 }
 
 .main-nav {
@@ -584,20 +584,20 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 .site-footer {
   background: var(--color-bg-dark-2);
   color: var(--color-text-light);
-  padding: 40px 0;
-  margin-top: 40px;
+  padding: 24px 0;
+  margin-top: 24px;
 }
 
 .footer-inner {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 32px;
-  align-items: flex-start;
+  gap: 24px;
+  align-items: center;
 }
 
 .footer-contact { text-align: right; }
-.footer-contact p { margin-bottom: 10px; font-size: .9rem; }
+.footer-contact p { margin-bottom: 8px; font-size: .9rem; }
 
 .footer-contact-links {
   display: flex;
@@ -611,9 +611,9 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   gap: 8px;
 }
 
-.footer-payments { margin-top: 18px; }
+.footer-payments { margin-top: 10px; }
 .footer-payments-label {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   font-size: .8rem;
   opacity: .75;
 }
