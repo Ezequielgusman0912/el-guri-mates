@@ -185,8 +185,8 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   inset: 0;
   z-index: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-auto-rows: 300px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 3px;
 }
 

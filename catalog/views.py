@@ -6,8 +6,7 @@ from orders.models import OrderItem
 from .models import Category, Product
 
 
-# Orden fijo (no se recalcula por request) armado para que ninguna foto
-# quede en un casillero adyacente a si misma en la grilla del hero.
+# Orden fijo para las ocho imágenes únicas de la grilla del hero.
 HERO_COLLAGE_IMAGES = [
     'img/hero-collage/hero-6.webp',
     'img/hero-collage/hero-2.jpg',
@@ -17,22 +16,6 @@ HERO_COLLAGE_IMAGES = [
     'img/hero-collage/hero-5.webp',
     'img/hero-collage/hero-7.webp',
     'img/hero-collage/hero-4.webp',
-    'img/hero-collage/hero-8.jpg',
-    'img/hero-collage/hero-6.webp',
-    'img/hero-collage/hero-2.jpg',
-    'img/hero-collage/hero-3.webp',
-    'img/hero-collage/hero-1.jpg',
-    'img/hero-collage/hero-7.webp',
-    'img/hero-collage/hero-4.webp',
-    'img/hero-collage/hero-5.webp',
-    'img/hero-collage/hero-6.webp',
-    'img/hero-collage/hero-2.jpg',
-    'img/hero-collage/hero-8.jpg',
-    'img/hero-collage/hero-7.webp',
-    'img/hero-collage/hero-1.jpg',
-    'img/hero-collage/hero-4.webp',
-    'img/hero-collage/hero-3.webp',
-    'img/hero-collage/hero-5.webp',
 ]
 
 
