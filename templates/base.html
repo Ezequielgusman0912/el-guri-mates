@@ -17,7 +17,11 @@
     <a href="{% url 'catalog:home' %}" class="logo">
       <img src="{% static 'img/logo.png' %}" alt="El Guri Mates" class="logo-img">
     </a>
-    <nav class="main-nav">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+      <span class="menu-toggle-icon" aria-hidden="true">☰</span>
+      <span class="menu-toggle-label">Menú</span>
+    </button>
+    <nav class="main-nav" id="main-nav">
       {% for cat in nav_categories %}
         <a href="{% url 'catalog:category_detail' cat.slug %}">{{ cat.name }}</a>
       {% endfor %}
