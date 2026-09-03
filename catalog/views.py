@@ -32,6 +32,11 @@ CATEGORY_IMAGES = {
         'position': 'center 15%',
         'header_position': 'center 15%',
     },
+    'varios': {
+        'image': 'img/categories/8cd851095ba48fe486b987d247bbeb2949c178786d15b928b625f01ec95d519d385769.png',
+        'position': 'center',
+        'header_position': 'center',
+    },
 }
 
 
