@@ -377,7 +377,12 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .product-image-placeholder-lg { font-size: 6rem; }
 
-.product-info { padding: 18px; }
+.product-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 18px;
+}
 
 .product-category {
   text-transform: uppercase;
@@ -385,16 +390,24 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   letter-spacing: 1px;
   color: #8a8267;
   margin: 0 0 4px;
+  min-height: 1.08em;
 }
 
-.product-info h3 { font-size: 1.05rem; margin-bottom: 6px; }
+.product-info h3 {
+  min-height: 3.15em;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
 
 .product-price {
   font-weight: 700;
   color: var(--color-bg-dark);
   font-size: 1.1rem;
+  min-height: 1.65em;
   margin-bottom: 12px;
 }
+
+.product-card .add-to-cart-form { margin-top: auto; }
 
 .product-price-lg { font-size: 1.6rem; }
 
