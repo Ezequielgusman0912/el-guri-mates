@@ -38,7 +38,7 @@ CATEGORY_IMAGES = {
         'header_position': 'center',
     },
     'yerbas': {
-        'image': 'img/categories/yerbas.jpg',
+        'image': 'img/categories/yerbas.jpeg',
         'position': 'center',
         'header_position': 'center',
     },
