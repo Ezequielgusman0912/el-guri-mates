@@ -415,6 +415,32 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   margin-bottom: 12px;
 }
 
+.product-price-sale {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.product-price-original {
+  color: #777;
+  font-size: .78em;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.product-price-current { color: var(--color-bg-dark); }
+
+.discount-badge {
+  padding: 3px 5px;
+  background: #00a651;
+  color: #fff;
+  font-size: .68em;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
 .product-card .add-to-cart-form { margin-top: auto; }
 
 .product-price-lg { font-size: 1.6rem; }

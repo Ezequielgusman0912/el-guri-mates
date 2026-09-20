@@ -10,7 +10,15 @@
   <div class="product-info">
     <p class="product-category">{{ product.category.name }}</p>
     <h3><a href="{% url 'catalog:product_detail' product.slug %}">{{ product.name }}</a></h3>
-    <p class="product-price">${{ product.price }}</p>
+    <div class="product-price{% if product.has_discount %} product-price-sale{% endif %}">
+      {% if product.has_discount %}
+        <span class="product-price-original">${{ product.price }}</span>
+        <span class="product-price-current">${{ product.current_price }}</span>
+        <span class="discount-badge">{{ product.discount_percent }}% OFF</span>
+      {% else %}
+        <span class="product-price-current">${{ product.price }}</span>
+      {% endif %}
+    </div>
     <form action="{% url 'orders:cart_add' product.id %}" method="post" class="add-to-cart-form">
       {% csrf_token %}
       <input type="hidden" name="quantity" value="1">

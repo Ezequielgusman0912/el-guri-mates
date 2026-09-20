@@ -1,7 +1,4 @@
-from django.db.models import Sum
 from django.shortcuts import get_object_or_404, render
-
-from orders.models import OrderItem
 
 from .models import Category, Product
 
@@ -48,18 +45,7 @@ CATEGORY_IMAGES = {
 def home(request):
     categories = Category.objects.all()
     products_qs = Product.objects.filter(is_active=True)
-    featured_products = products_qs.filter(featured=True)[:8]
-
-    sales_by_product = dict(
-        OrderItem.objects
-        .exclude(order__status='cancelado')
-        .values('product_id')
-        .annotate(total_sold=Sum('quantity'))
-        .values_list('product_id', 'total_sold')
-    )
-    top_products = sorted(
-        products_qs, key=lambda p: (-sales_by_product.get(p.id, 0), p.name)
-    )[:4]
+    offers_products = products_qs.filter(discount_percent__gt=0)[:8]
 
     categories_with_images = [
         {'category': cat, **CATEGORY_IMAGES.get(cat.slug, {'image': None, 'position': 'center'})}
@@ -68,8 +54,7 @@ def home(request):
     return render(request, 'catalog/home.html', {
         'categories': categories,
         'categories_with_images': categories_with_images,
-        'featured_products': featured_products,
-        'top_products': top_products,
+        'offers_products': offers_products,
         'hero_collage_images': HERO_COLLAGE_IMAGES,
     })
 

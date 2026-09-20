@@ -23,7 +23,7 @@ class Cart:
         if pid in self.cart:
             self.cart[pid]['quantity'] += quantity
         else:
-            self.cart[pid] = {'quantity': quantity, 'price': str(product.price)}
+            self.cart[pid] = {'quantity': quantity, 'price': str(product.current_price)}
         self.save()
 
     def update(self, product, quantity):

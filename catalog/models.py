@@ -1,3 +1,6 @@
+from decimal import Decimal, ROUND_HALF_UP
+
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.text import slugify
 
@@ -28,7 +31,12 @@ class Product(models.Model):
     name = models.CharField('nombre', max_length=150)
     slug = models.SlugField(max_length=170, unique=True, blank=True)
     description = models.TextField('descripción', blank=True)
-    price = models.DecimalField('precio', max_digits=10, decimal_places=2)
+    price = models.DecimalField('precio original', max_digits=10, decimal_places=2)
+    discount_percent = models.PositiveIntegerField(
+        'descuento (%)',
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
     stock = models.PositiveIntegerField('stock', default=0)
     image = models.ImageField('imagen', upload_to='productos/', blank=True, null=True)
     is_active = models.BooleanField('activo', default=True)
@@ -57,6 +65,21 @@ class Product(models.Model):
     @property
     def in_stock(self):
         return self.stock > 0
+
+    @property
+    def has_discount(self):
+        return self.discount_percent > 0
+
+    @property
+    def discounted_price(self):
+        if not self.has_discount:
+            return self.price
+        discount = Decimal(100 - self.discount_percent) / Decimal(100)
+        return (self.price * discount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+
+    @property
+    def current_price(self):
+        return self.discounted_price
 
 
 class ProductImage(models.Model):

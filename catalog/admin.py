@@ -16,9 +16,9 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'stock', 'is_active', 'featured')
+    list_display = ('name', 'category', 'price', 'discount_percent', 'stock', 'is_active', 'featured')
     list_filter = ('category', 'is_active', 'featured')
-    list_editable = ('price', 'stock', 'is_active', 'featured')
+    list_editable = ('price', 'discount_percent', 'stock', 'is_active', 'featured')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'description')
     inlines = [ProductImageInline]

@@ -34,7 +34,15 @@
         <a href="{% url 'catalog:category_detail' product.category.slug %}">{{ product.category.name }}</a>
       </p>
       <h1>{{ product.name }}</h1>
-      <p class="product-price product-price-lg">${{ product.price }}</p>
+      <div class="product-price product-price-lg{% if product.has_discount %} product-price-sale{% endif %}">
+        {% if product.has_discount %}
+          <span class="product-price-original">${{ product.price }}</span>
+          <span class="product-price-current">${{ product.current_price }}</span>
+          <span class="discount-badge">{{ product.discount_percent }}% OFF</span>
+        {% else %}
+          <span class="product-price-current">${{ product.price }}</span>
+        {% endif %}
+      </div>
       {% if product.description %}
         <p class="product-description">{{ product.description|linebreaksbr }}</p>
       {% endif %}
