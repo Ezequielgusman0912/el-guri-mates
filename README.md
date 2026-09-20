@@ -18,7 +18,7 @@ copy .env.example .env         # Windows (usá "cp" en Mac/Linux)
 # vacío para probar en local (usa SQLite y muestra los emails en la consola).
 
 python manage.py migrate
-python manage.py seed_categories   # crea Mates, Bombillas, Canastas Materas, Termos
+python manage.py seed_categories   # crea Mates, Bombillas, Canastas Materas, Termos, Varios y Yerbas
 python manage.py createsuperuser   # para entrar a /admin
 
 python manage.py runserver

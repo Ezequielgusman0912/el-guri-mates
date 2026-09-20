@@ -275,7 +275,14 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   text-align: center;
 }
 
-.categories { padding: 70px 0 30px; }
+.categories {
+  position: relative;
+  isolation: isolate;
+  padding: 70px 0 30px;
+  background-image: linear-gradient(rgba(251, 246, 230, .86), rgba(251, 246, 230, .92)), var(--categories-bg);
+  background-size: cover;
+  background-position: center;
+}
 
 .category-grid {
   display: grid;

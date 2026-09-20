@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 
 from catalog.models import Category
 
-CATEGORIES = ['Mates', 'Bombillas', 'Canastas Materas', 'Termos', 'Varios']
+CATEGORIES = ['Mates', 'Bombillas', 'Canastas Materas', 'Termos', 'Varios', 'Yerbas']
 
 
 class Command(BaseCommand):
