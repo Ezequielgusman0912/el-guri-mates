@@ -286,8 +286,8 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
 }
 
 .category-card {
@@ -295,10 +295,14 @@ button:disabled, .btn:disabled { opacity: .5; cursor: not-allowed; }
   background: var(--color-bg-dark);
   color: var(--color-text-light);
   border-radius: var(--radius);
-  padding: 34px 20px;
+  min-height: 180px;
+  padding: 40px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.5rem;
   transition: transform .15s ease, background .15s ease;
 }
 .category-card:hover { background: var(--color-bg-dark-2); transform: translateY(-3px); }
