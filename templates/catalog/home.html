@@ -10,13 +10,35 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
-    <img src="{% static 'img/logo-hero.png' %}" alt="El Guri Mates" class="hero-logo">
-    <p class="hero-subtitle">Productos materos y más.</p>
+    <p class="hero-eyebrow">El Guri Mates · Córdoba</p>
+    <h1>Mates artesanales y todo para tu ronda</h1>
+    <p class="hero-subtitle">Mates, bombillas, termos y yerbas, con envíos a todo el país.</p>
     <div class="hero-actions">
       <a href="#categorias" class="btn btn-accent">Ver productos</a>
       <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-light">Consultar por WhatsApp</a>
     </div>
   </div>
+</section>
+
+<section class="trust-strip" aria-label="Por qué comprar en El Guri">
+  <ul class="container trust-list">
+    <li>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+      <span><strong>Envíos a todo el país</strong> desde Córdoba</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+      <span><strong>Pagá como quieras</strong> Mercado Pago, tarjetas y efectivo</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"></path></svg>
+      <span><strong>Atención por WhatsApp</strong> antes y después</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.8 1-1.1a5.5 5.5 0 0 0 0-7.7z"></path></svg>
+      <span><strong>Mates artesanales</strong> de Córdoba</span>
+    </li>
+  </ul>
 </section>
 
 <section id="categorias" class="categories" style="--categories-bg: url('{% static 'img/categories/yerbas.jpeg' %}');">
@@ -27,7 +49,8 @@
       <a href="{% url 'catalog:category_detail' entry.category.slug %}"
          class="category-card{% if entry.image %} category-card-with-image{% endif %}"
          {% if entry.image %}style="--cat-bg: url('{% static entry.image %}'); --cat-pos: {{ entry.position }};"{% endif %}>
-        <span>{{ entry.category.name }}</span>
+        <span class="category-card-name">{{ entry.category.name }}</span>
+        <span class="category-card-count">{{ entry.category.product_count }} producto{{ entry.category.product_count|pluralize }} →</span>
       </a>
       {% empty %}
       <p class="empty-state">
@@ -42,11 +65,28 @@
   </div>
 </section>
 
+{% if new_products %}
+<section class="products products-new">
+  <div class="container">
+    <h2 class="section-title">Novedades</h2>
+    <div class="product-carousel" data-carousel>
+      <button type="button" class="carousel-arrow carousel-arrow-prev" data-carousel-prev aria-label="Ver anteriores" disabled>‹</button>
+      <div class="product-carousel-track" data-carousel-track>
+        {% for product in new_products %}
+          {% include 'catalog/_product_card.html' %}
+        {% endfor %}
+      </div>
+      <button type="button" class="carousel-arrow carousel-arrow-next" data-carousel-next aria-label="Ver más">›</button>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <section id="productos" class="products">
   <div class="container">
     <h2 class="section-title">Ofertas</h2>
     {% if offers_products %}
-    <div class="product-grid">
+    <div class="product-grid product-grid-centered">
       {% for product in offers_products %}
         {% include 'catalog/_product_card.html' %}
       {% endfor %}

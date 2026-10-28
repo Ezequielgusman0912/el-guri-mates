@@ -1,3 +1,4 @@
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Product
@@ -43,13 +44,17 @@ CATEGORY_IMAGES = {
 
 
 def home(request):
-    categories = Category.objects.all()
+    # Con annotate+GROUP BY Django ignora Meta.ordering, así que se ordena explícito.
+    categories = Category.objects.annotate(
+        product_count=Count('products', filter=Q(products__is_active=True))
+    ).order_by('order', 'name')
     products_qs = (
         Product.objects.filter(is_active=True)
         .select_related('category')
         .prefetch_related('gallery')
     )
     offers_products = products_qs.filter(discount_percent__gt=0)[:8]
+    new_products = products_qs.filter(stock__gt=0).order_by('-created_at')[:10]
 
     categories_with_images = [
         {'category': cat, **CATEGORY_IMAGES.get(cat.slug, {'image': None, 'position': 'center'})}
@@ -59,6 +64,7 @@ def home(request):
         'categories': categories,
         'categories_with_images': categories_with_images,
         'offers_products': offers_products,
+        'new_products': new_products,
         'hero_collage_images': HERO_COLLAGE_IMAGES,
     })
 

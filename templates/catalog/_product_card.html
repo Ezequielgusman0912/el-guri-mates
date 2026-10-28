@@ -29,7 +29,7 @@
       <input type="hidden" name="quantity" value="1">
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
       <button type="submit" class="btn btn-small btn-block" {% if not product.in_stock %}disabled{% endif %}>
-        {% if product.in_stock %}Agregar al pedido{% else %}Sin stock{% endif %}
+        {% if product.in_stock %}<span class="btn-label-long">Agregar al pedido</span><span class="btn-label-short">Agregar</span>{% else %}Sin stock{% endif %}
       </button>
     </form>
   </div>
