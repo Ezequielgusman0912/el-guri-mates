@@ -44,7 +44,11 @@ CATEGORY_IMAGES = {
 
 def home(request):
     categories = Category.objects.all()
-    products_qs = Product.objects.filter(is_active=True)
+    products_qs = (
+        Product.objects.filter(is_active=True)
+        .select_related('category')
+        .prefetch_related('gallery')
+    )
     offers_products = products_qs.filter(discount_percent__gt=0)[:8]
 
     categories_with_images = [
@@ -61,7 +65,7 @@ def home(request):
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    products = category.products.filter(is_active=True)
+    products = category.products.filter(is_active=True).prefetch_related('gallery')
     category_data = CATEGORY_IMAGES.get(category.slug, {})
     return render(request, 'catalog/category_detail.html', {
         'category': category,

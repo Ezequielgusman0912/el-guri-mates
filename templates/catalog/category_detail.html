@@ -20,7 +20,7 @@
     {% if products %}
     <div class="product-grid">
       {% for product in products %}
-        {% include 'catalog/_product_card.html' %}
+        {% include 'catalog/_product_card.html' with hide_category=True %}
       {% endfor %}
     </div>
     {% else %}

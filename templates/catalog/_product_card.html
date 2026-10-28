@@ -1,31 +1,50 @@
 {% load static %}
-<article class="product-card">
-  <a href="{% url 'catalog:product_detail' product.slug %}" class="product-image">
-    {% if product.image %}
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-    {% else %}
-      <div class="product-image-placeholder" aria-hidden="true">🧉</div>
-    {% endif %}
-  </a>
-  <div class="product-info">
-    <p class="product-category">{{ product.category.name }}</p>
-    <h3><a href="{% url 'catalog:product_detail' product.slug %}">{{ product.name }}</a></h3>
-    <div class="product-price{% if product.has_discount %} product-price-sale{% endif %}">
-      {% if product.has_discount %}
-        <span class="product-price-original">${{ product.price }}</span>
-        <span class="product-price-current">${{ product.current_price }}</span>
-        <span class="discount-badge">{{ product.discount_percent }}% OFF</span>
+<article class="product-card{% if not product.in_stock %} is-out-of-stock{% endif %}">
+  <div class="product-media">
+    <a href="{% url 'catalog:product_detail' product.slug %}" class="product-image">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+        {% with hover_image=product.gallery.all.0 %}
+          {% if hover_image %}
+            <img src="{{ hover_image.image.url }}" alt="" class="product-image-hover" loading="lazy" aria-hidden="true">
+          {% endif %}
+        {% endwith %}
       {% else %}
-        <span class="product-price-current">${{ product.price }}</span>
+        <div class="product-image-placeholder" aria-hidden="true">🧉</div>
       {% endif %}
-    </div>
+    </a>
+
+    {% if not product.in_stock %}
+      <span class="product-tag product-tag-muted">Sin stock</span>
+    {% elif product.featured %}
+      <span class="product-tag">Destacado</span>
+    {% endif %}
+
+    {% if product.has_discount %}
+      <span class="product-discount-tag">-{{ product.discount_percent }}%</span>
+    {% endif %}
+
     <form action="{% url 'orders:cart_add' product.id %}" method="post" class="add-to-cart-form">
       {% csrf_token %}
       <input type="hidden" name="quantity" value="1">
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
-      <button type="submit" class="btn btn-small" {% if not product.in_stock %}disabled{% endif %}>
+      <button type="submit" class="btn btn-small btn-block" {% if not product.in_stock %}disabled{% endif %}>
         {% if product.in_stock %}Agregar al pedido{% else %}Sin stock{% endif %}
       </button>
     </form>
+  </div>
+  <div class="product-info">
+    {% if not hide_category %}
+    <p class="product-category">{{ product.category.name }}</p>
+    {% endif %}
+    <h3><a href="{% url 'catalog:product_detail' product.slug %}">{{ product.name }}</a></h3>
+    <div class="product-price{% if product.has_discount %} product-price-sale{% endif %}">
+      {% if product.has_discount %}
+        <span class="product-price-current">${{ product.current_price }}</span>
+        <span class="product-price-original">${{ product.price }}</span>
+      {% else %}
+        <span class="product-price-current">${{ product.price }}</span>
+      {% endif %}
+    </div>
   </div>
 </article>
