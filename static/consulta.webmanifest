@@ -1,0 +1,12 @@
+{
+  "name": "El Guri Mates · Precios",
+  "short_name": "Precios Guri",
+  "start_url": "/consulta/",
+  "scope": "/consulta/",
+  "display": "standalone",
+  "background_color": "#fbf6e6",
+  "theme_color": "#1c4a41",
+  "icons": [
+    { "src": "/static/img/logo-square.png", "sizes": "2250x2250", "type": "image/png", "purpose": "any" }
+  ]
+}

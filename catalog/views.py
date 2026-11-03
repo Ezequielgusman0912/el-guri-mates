@@ -1,4 +1,6 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Count, Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Product
@@ -86,3 +88,57 @@ def category_detail(request, slug):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_active=True)
     return render(request, 'catalog/product_detail.html', {'product': product})
+
+
+def _cloudinary_thumb(url, size):
+    """Pide a Cloudinary una versión chica de la foto; las URLs locales quedan igual."""
+    if '/image/upload/' not in url:
+        return url
+    return url.replace('/image/upload/', f'/image/upload/c_fill,w_{size},h_{size},f_auto,q_auto/', 1)
+
+
+@staff_member_required
+def price_lookup(request):
+    """Consulta rápida de precios y stock para usar desde el celular mientras se vende."""
+    products = Product.objects.select_related('category').order_by('name')
+    items = [
+        {
+            'product': p,
+            'thumb': _cloudinary_thumb(p.image.url, 160) if p.image else None,
+            'large': _cloudinary_thumb(p.image.url, 700) if p.image else None,
+        }
+        for p in products
+    ]
+    categories = Category.objects.filter(products__isnull=False).distinct().order_by('order', 'name')
+    return render(request, 'catalog/price_lookup.html', {'items': items, 'categories': categories})
+
+
+# Service worker for the price lookup: it has to be served from /consulta/ so its scope covers the page.
+# The page is fetched from the network first (fresh prices) and falls back to the last saved copy when
+# there is no signal (e.g. at a fair); photos are kept once seen.
+PRICE_LOOKUP_SW = """
+const CACHE = 'consulta-v1';
+self.addEventListener('install', (e) => self.skipWaiting());
+self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  if (req.mode === 'navigate') {
+    e.respondWith(fetch(req).then((res) => {
+      if (res.ok && !res.redirected) caches.open(CACHE).then((c) => c.put(req, res.clone()));
+      return res.clone();
+    }).catch(() => caches.match(req)));
+  } else if (req.destination === 'image') {
+    e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((res) => {
+      caches.open(CACHE).then((c) => c.put(req, res.clone()));
+      return res.clone();
+    })));
+  }
+});
+"""
+
+
+def price_lookup_sw(request):
+    response = HttpResponse(PRICE_LOOKUP_SW, content_type='application/javascript')
+    response['Cache-Control'] = 'no-cache'
+    return response
