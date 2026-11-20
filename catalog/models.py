@@ -24,9 +24,56 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 
+# Tipos y materiales de mate, en el orden en que se muestran en la página de Mates.
+MATE_TIPO_CHOICES = [
+    ('imperial', 'Imperial'),
+    ('torpedo', 'Torpedo'),
+    ('galleta', 'Galleta'),
+    ('camionero', 'Camionero'),
+    ('criollo', 'Criollo'),
+    ('ranchero', 'Ranchero'),
+    ('otros', 'Otros'),
+]
+
+MATE_MATERIAL_CHOICES = [
+    ('calabaza', 'Calabaza'),
+    ('algarrobo', 'Algarrobo'),
+    ('acero', 'Acero'),
+]
+
+MATES_CATEGORY_SLUG = 'mates'
+
+
+def guess_mate_tipo(name):
+    """Adivina el tipo por el nombre. "Torpedo Imperial" es torpedo, por eso va primero."""
+    n = name.lower()
+    if 'torped' in n:
+        return 'torpedo'
+    if 'imperial' in n or 'roma' in n:
+        return 'imperial'
+    for tipo in ('galleta', 'camionero', 'criollo', 'ranchero'):
+        if tipo in n:
+            return tipo
+    return 'otros'
+
+
+def guess_mate_material(name, description=''):
+    """Solo reconoce algarrobo; el acero en el nombre suele ser la virola, así que se elige a mano."""
+    text = f'{name} {description[:400]}'.lower()
+    return 'algarrobo' if 'algarrobo' in text else 'calabaza'
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         Category, related_name='products', on_delete=models.CASCADE, verbose_name='categoría'
+    )
+    tipo = models.CharField(
+        'tipo de mate', max_length=20, choices=MATE_TIPO_CHOICES, blank=True,
+        help_text='Solo para mates. Si lo dejás vacío se completa solo según el nombre.',
+    )
+    material = models.CharField(
+        'material', max_length=20, choices=MATE_MATERIAL_CHOICES, blank=True,
+        help_text='Solo para mates. Si lo dejás vacío se completa solo (algarrobo o calabaza).',
     )
     name = models.CharField('nombre', max_length=150)
     slug = models.SlugField(max_length=170, unique=True, blank=True)
@@ -60,6 +107,11 @@ class Product(models.Model):
                 n += 1
                 slug = f'{base}-{n}'
             self.slug = slug
+        if self.category_id and self.category.slug == MATES_CATEGORY_SLUG:
+            if not self.tipo:
+                self.tipo = guess_mate_tipo(self.name)
+            if not self.material:
+                self.material = guess_mate_material(self.name, self.description)
         super().save(*args, **kwargs)
 
     @property

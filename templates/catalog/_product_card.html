@@ -1,5 +1,5 @@
 {% load static %}
-<article class="product-card{% if not product.in_stock %} is-out-of-stock{% endif %}">
+<article class="product-card{% if not product.in_stock %} is-out-of-stock{% endif %}"{% if show_material %} data-tipo="{{ product.tipo|default:'otros' }}" data-material="{{ product.material }}"{% endif %}>
   <div class="product-media">
     <a href="{% url 'catalog:product_detail' product.slug %}" class="product-image">
       {% if product.image %}
@@ -11,6 +11,9 @@
         {% endwith %}
       {% else %}
         <div class="product-image-placeholder" aria-hidden="true">🧉</div>
+      {% endif %}
+      {% if show_material and product.material %}
+        <span class="product-material"><span class="swatch swatch-{{ product.material }}" aria-hidden="true"></span>{{ product.get_material_display }}</span>
       {% endif %}
     </a>
 

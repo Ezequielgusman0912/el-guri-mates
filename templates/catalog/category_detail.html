@@ -15,17 +15,67 @@
   </div>
 </section>
 
-<section class="products">
+{% if tipo_filters %}
+<section class="type-filters" data-type-filters>
   <div class="container">
-    {% if products %}
-    <div class="product-grid">
-      {% for product in products %}
-        {% include 'catalog/_product_card.html' with hide_category=True %}
+    <p class="filter-label" id="type-filter-label">Elegí el tipo de mate</p>
+    <div class="type-row" role="group" aria-labelledby="type-filter-label">
+      {% for t in tipo_filters %}
+      <button type="button" class="type-chip" data-tipo="{{ t.id }}" data-title="{{ t.title }}" data-desc="{{ t.desc }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ t.name }}, {{ t.count }} mates">
+        <span class="type-photo">
+          <span class="type-photo-inner{% if t.collage %} is-collage{% endif %}">
+            {% for img in t.images %}<img src="{{ img }}" alt="" loading="lazy">{% empty %}<span class="type-photo-empty" aria-hidden="true">🧉</span>{% endfor %}
+          </span>
+          <span class="type-count">{{ t.count }}</span>
+        </span>
+        <span class="type-name">{{ t.name }}</span>
+      </button>
       {% endfor %}
     </div>
+    <div class="material-row" role="group" aria-label="Material">
+      <span class="filter-label">Material</span>
+      {% for m in material_filters %}
+      <button type="button" class="mat-pill" data-material="{{ m.id }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"{% if not m.count %} disabled{% endif %}>
+        <span class="swatch swatch-{{ m.id }}" aria-hidden="true"></span>
+        <span>{{ m.name }}</span>
+        <span class="mat-count">{{ m.count }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="products{% if tipo_filters %} products-filtered{% endif %}">
+  <div class="container">
+    {% if tipo_filters %}
+    <div class="group-head">
+      <div>
+        <h2 data-group-title>{{ tipo_filters.0.title }}</h2>
+        <p data-group-desc>{{ tipo_filters.0.desc }}</p>
+      </div>
+      <span class="group-total" data-group-total>{{ products|length }} mates</span>
+    </div>
+    {% endif %}
+    {% if products %}
+    <div class="product-grid" data-filter-grid>
+      {% for product in products %}
+        {% include 'catalog/_product_card.html' with hide_category=True show_material=tipo_filters %}
+      {% endfor %}
+    </div>
+    {% if tipo_filters %}
+    <div class="empty-state filter-empty" data-filter-empty hidden>
+      <p>No hay mates de ese tipo en ese material por ahora.</p>
+      <button type="button" class="btn btn-small" data-filter-reset>Ver todos los materiales</button>
+    </div>
+    {% endif %}
     {% else %}
     <p class="empty-state">Todavía no hay productos en esta categoría.</p>
     {% endif %}
   </div>
 </section>
 {% endblock %}
+
+{% block extra_js %}{% if tipo_filters %}<script src="{% static 'js/category-filters.js' %}" defer></script>{% endif %}{% endblock %}

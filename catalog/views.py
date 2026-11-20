@@ -3,7 +3,7 @@ from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
-from .models import Category, Product
+from .models import MATE_MATERIAL_CHOICES, MATE_TIPO_CHOICES, Category, Product
 
 
 # Orden fijo para las ocho imágenes únicas de la grilla del hero.
@@ -71,13 +71,73 @@ def home(request):
     })
 
 
+# Título y frase de cada grupo en la página de Mates.
+MATE_TIPO_INFO = {
+    'todos': ('Todos los mates', 'Toda la colección de mates. Elegí un tipo arriba para ver solo esos.'),
+    'imperial': ('Imperiales', 'El clásico de lujo, con virola y base de alpaca o acero.'),
+    'torpedo': ('Torpedos', 'Cuerpo redondeado que se afina hacia la base. Cómodo en la mano.'),
+    'galleta': ('Galletas', 'Forma baja y redondeada, un clásico que nunca falla.'),
+    'camionero': ('Camioneros', 'Mates grandes, con presencia, para cebar largo.'),
+    'criollo': ('Criollos', 'Calabaza natural, cuero y costura a mano, como se hizo siempre.'),
+    'ranchero': ('Rancheros', 'Cuerpo alto y facetado, tallado en algarrobo.'),
+    'otros': ('Otros mates', 'Uruguayo, Porito y otras piezas únicas.'),
+}
+
+
+def _filter_thumb(products):
+    """Foto chica del primer mate con foto, prefiriendo los que tienen stock."""
+    with_image = [p for p in products if p.image]
+    if not with_image:
+        return None
+    best = next((p for p in with_image if p.in_stock), with_image[0])
+    # Recorte automático con zoom medio: el mate llena el círculo en vez de perderse en la pared.
+    return _cloudinary_thumb(best.image.url, 168, crop='c_thumb,g_auto,z_0.5')
+
+
+def _mate_filters(products):
+    """Botones de tipo y material; vacío si los productos no tienen tipo cargado."""
+    if not any(p.tipo for p in products):
+        return [], []
+    by_tipo = {}
+    for p in products:
+        by_tipo.setdefault(p.tipo or 'otros', []).append(p)
+
+    tipos = []
+    for key, label in MATE_TIPO_CHOICES:
+        group = by_tipo.get(key)
+        if not group:
+            continue
+        title, desc = MATE_TIPO_INFO.get(key, (label, ''))
+        thumb = _filter_thumb(group)
+        tipos.append({
+            'id': key, 'name': label, 'title': title, 'desc': desc,
+            'count': len(group), 'images': [thumb] if thumb else [],
+        })
+
+    collage = [img for t in tipos[:4] for img in t['images']]
+    title, desc = MATE_TIPO_INFO['todos']
+    tipos.insert(0, {
+        'id': 'todos', 'name': 'Todos', 'title': title, 'desc': desc,
+        'count': len(products), 'images': collage, 'collage': len(collage) == 4,
+    })
+
+    materiales = [{'id': 'todos', 'name': 'Todos', 'count': len(products)}]
+    for key, label in MATE_MATERIAL_CHOICES:
+        count = sum(1 for p in products if p.material == key)
+        materiales.append({'id': key, 'name': label, 'count': count})
+    return tipos, materiales
+
+
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    products = category.products.filter(is_active=True).prefetch_related('gallery')
+    products = list(category.products.filter(is_active=True).prefetch_related('gallery'))
     category_data = CATEGORY_IMAGES.get(category.slug, {})
+    tipo_filters, material_filters = _mate_filters(products)
     return render(request, 'catalog/category_detail.html', {
         'category': category,
         'products': products,
+        'tipo_filters': tipo_filters,
+        'material_filters': material_filters,
         'category_image': category_data.get('image'),
         'category_image_position': category_data.get(
             'header_position', category_data.get('position', 'center')
@@ -90,11 +150,11 @@ def product_detail(request, slug):
     return render(request, 'catalog/product_detail.html', {'product': product})
 
 
-def _cloudinary_thumb(url, size):
+def _cloudinary_thumb(url, size, crop='c_fill'):
     """Pide a Cloudinary una versión chica de la foto; las URLs locales quedan igual."""
     if '/image/upload/' not in url:
         return url
-    return url.replace('/image/upload/', f'/image/upload/c_fill,w_{size},h_{size},f_auto,q_auto/', 1)
+    return url.replace('/image/upload/', f'/image/upload/{crop},w_{size},h_{size},f_auto,q_auto/', 1)
 
 
 @staff_member_required
